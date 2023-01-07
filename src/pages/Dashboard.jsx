@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useRef } from "react";
 import { UseAuthProvider } from "../context/context";
 import { useTaskProvider } from "../context/tasksContext";
-import Loading from "../components/Loading";
+import Loading from "../auth/Loading";
 import {
   checkDateTime,
   checkExpiredToken,

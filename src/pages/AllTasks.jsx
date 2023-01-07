@@ -15,7 +15,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTaskProvider } from "../context/tasksContext";
 import { UseAuthProvider } from "../context/context";
-import Loading from "../components/Loading";
+import Loading from "../auth/Loading";
 import { checkDateTime, checkExpiredToken, theme } from "../utils/helpers";
 import DeleteModal from "../modals/DeleteModal";
 import LogoutBtn from "../utils/LogoutBtn";

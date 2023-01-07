@@ -7,7 +7,7 @@ import Register from "./pages/Register";
 import Welcome from "./pages/Welcome";
 import AddTask from "./pages/AddTask";
 import ErrorPage from "./pages/ErrorPage";
-import PrivateRoutes from "./components/PrivateRoutes";
+import PrivateRoutes from "./auth/PrivateRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UseAuthProvider } from "./context/context";

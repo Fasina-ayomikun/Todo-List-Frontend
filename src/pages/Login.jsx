@@ -17,7 +17,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { UseAuthProvider } from "../context/context";
 import { useForm } from "react-hook-form";
 import { useRef } from "react";
-import Loading from "../components/Loading";
+import Loading from "../auth/Loading";
 import { theme } from "../utils/helpers";
 
 export default function Login() {

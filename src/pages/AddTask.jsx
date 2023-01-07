@@ -10,7 +10,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useTaskProvider } from "../context/tasksContext";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import Loading from "../components/Loading";
+import Loading from "../auth/Loading";
 import { UseAuthProvider } from "../context/context";
 import { checkExpiredToken, theme } from "../utils/helpers";
 
