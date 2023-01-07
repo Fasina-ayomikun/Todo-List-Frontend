@@ -106,6 +106,9 @@ export default function AddTask() {
               type='text'
               defaultValue={isEditing ? editedTask.title : null}
               {...register("title")}
+              inputProps={{
+                maxLength: 50,
+              }}
               sx={{
                 input: {
                   color: "#c7c7c7",

@@ -20,6 +20,7 @@ function PopUpModal({ open, handleClose, fullTask }) {
           variant='h6'
           component='h2'
           sx={{
+            wordBreak: "break-all",
             mt: 2,
             borderBottom: "1px solid #7e7c7c",
             paddingBottom: "5px",
@@ -27,7 +28,13 @@ function PopUpModal({ open, handleClose, fullTask }) {
         >
           {fullTask.title}
         </Typography>
-        <Typography id='modal-modal-description' mt={2}>
+        <Typography
+          id='modal-modal-description'
+          mt={2}
+          sx={{
+            wordBreak: "break-all",
+          }}
+        >
           {fullTask.desc}
         </Typography>
         <Typography

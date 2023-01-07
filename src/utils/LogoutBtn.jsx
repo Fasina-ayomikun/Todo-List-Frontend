@@ -16,12 +16,16 @@ function LogoutBtn() {
       }}
       sx={{
         position: "absolute",
-        top: "20px",
+        top: "10px",
         right: "20px",
         display: "flex",
         alignItems: "center",
         columnGap: "10px",
         cursor: "pointer",
+        fontSize: {
+          xs: "0.9rem",
+          sm: "1rem",
+        },
       }}
     >
       <LogoutIcon />

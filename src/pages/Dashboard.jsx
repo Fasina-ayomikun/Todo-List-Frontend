@@ -8,6 +8,7 @@ import {
   ThemeProvider,
   Typography,
   Button,
+  Stack,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
@@ -97,6 +98,10 @@ function Dashboard() {
               xs: "1rem",
               sm: "1.2rem",
             },
+            paddingTop: {
+              xs: "12px",
+              sm: "0",
+            },
           }}
         >
           Welcome to my Todo App
@@ -135,6 +140,7 @@ function Dashboard() {
         >
           <TableHead>
             <TableRow>
+              <TableCell size='small'></TableCell>
               <TableCell
                 sx={{
                   color: "#fff",
@@ -153,76 +159,100 @@ function Dashboard() {
               >
                 Due Date
               </TableCell>
-              <TableCell></TableCell>
+              <TableCell size='small'></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks.map((task) => {
-              const { title, deadline, description } = task;
-              return (
-                <TableRow key={task._id}>
-                  <TableCell
-                    sx={{
-                      color: "#fff",
-                    }}
-                    onClick={() => {
-                      setOpen(true);
-                      setFullTask({
-                        title,
-                        desc: description || "No description available...",
-                        deadline,
-                      });
-                    }}
-                  >
-                    {title}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      display: {
-                        xs: "none",
-                        sm: "table-cell",
-                      },
-                      color: "#fff",
-                    }}
-                  >
-                    {checkDateTime(deadline)}
-                  </TableCell>
-                  <TableCell>
-                    <NavLink
-                      to='/add'
-                      onClick={() => {
-                        setIsEditing(true);
-                        setEditedTask({
-                          id: task._id,
-                          title: task.title,
-                          description,
-                          deadline: deadline.slice(0, -1),
-                        });
-
-                        navigate("/add");
+            {tasks.length < 1 ? (
+              <TableCell
+                variant='6'
+                sx={{
+                  borderBottom: "0",
+                }}
+              >
+                No Task Available.
+              </TableCell>
+            ) : (
+              tasks.slice(0, 7).map((task) => {
+                const { title, deadline, description } = task;
+                return (
+                  <TableRow key={task._id}>
+                    <TableCell
+                      size='small'
+                      sx={{
+                        width: "5%",
                       }}
                     >
-                      <BorderColorRoundedIcon
-                        sx={{
-                          color: "#A6E1FA",
+                      <NavLink
+                        to='/add'
+                        onClick={() => {
+                          setIsEditing(true);
+                          setEditedTask({
+                            id: task._id,
+                            title: task.title,
+                            description,
+                            deadline: deadline.slice(0, -1),
+                          });
+
+                          navigate("/add");
                         }}
-                      />
-                    </NavLink>
-                    <DeleteRoundedIcon
+                      >
+                        <BorderColorRoundedIcon
+                          sx={{
+                            color: "#A6E1FA",
+                          }}
+                        />
+                      </NavLink>
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        color: "#fff",
+                      }}
                       onClick={() => {
-                        setIsTaskDeleted(true);
-                        setEditedTask({
-                          id: task._id,
+                        setOpen(true);
+                        setFullTask({
+                          title,
+                          desc: description || "No description available...",
+                          deadline,
                         });
                       }}
+                    >
+                      {title.substring(0, 10) + "..."}
+                    </TableCell>
+
+                    <TableCell
                       sx={{
-                        color: "#FF8E8E",
+                        display: {
+                          xs: "none",
+                          sm: "table-cell",
+                        },
+                        color: "#fff",
                       }}
-                    />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                    >
+                      {checkDateTime(deadline)}
+                    </TableCell>
+                    <TableCell
+                      size='small'
+                      sx={{
+                        width: "10%",
+                      }}
+                    >
+                      <DeleteRoundedIcon
+                        onClick={() => {
+                          setIsTaskDeleted(true);
+                          setEditedTask({
+                            id: task._id,
+                          });
+                        }}
+                        sx={{
+                          color: "#FF8E8E",
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            )}
           </TableBody>
         </Table>
         <Button

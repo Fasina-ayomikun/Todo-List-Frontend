@@ -90,7 +90,8 @@ function AllTasks() {
           align='center'
           sx={{
             paddingTop: {
-              xs: "30px",
+              xs: "50px",
+              sm: "30px",
             },
             fontSize: {
               xs: "2rem",
@@ -111,72 +112,87 @@ function AllTasks() {
             gap: "30px",
           }}
         >
-          {tasks.map((task) => {
-            const { title, description, deadline } = task;
-            return (
-              <Box key={task._id}>
-                <Accordion
-                  sx={{
-                    background: "#00072D",
-                    color: "#fff",
-                    boxShadow: "0 0 8px 5px #585757",
-                  }}
-                >
-                  <AccordionSummary
-                    aria-controls='panel1a-content'
-                    id='panel1a-header'
+          {tasks.length < 1 ? (
+            <Typography variant='6'>No Task Available.</Typography>
+          ) : (
+            tasks.map((task) => {
+              const { title, description, deadline } = task;
+              return (
+                <Box key={task._id}>
+                  <Accordion
+                    sx={{
+                      background: "#00072D",
+                      color: "#fff",
+                      boxShadow: "0 0 8px 5px #585757",
+                    }}
                   >
-                    <BorderColorRoundedIcon
-                      sx={{
-                        marginRight: "10px",
-                      }}
-                      onClick={() => {
-                        setIsEditing(true);
-                        setEditedTask({
-                          id: task._id,
-                          title: task.title,
-                          description,
-                          deadline: deadline.slice(0, -1),
-                        });
-
-                        navigate("/add");
-                      }}
-                    />
-                    <Typography width='100%'>{title}</Typography>
-                    <DeleteRoundedIcon
-                      onClick={() => {
-                        setIsTaskDeleted(true);
-                        setEditedTask({
-                          id: task._id,
-                        });
-                      }}
-                      sx={{
-                        color: "#FF8E8E",
-                      }}
-                    />
-                  </AccordionSummary>
-                  <Divider color='#828080' />
-                  <AccordionDetails>
-                    <Typography>
-                      {description || "No description available..."}
-                    </Typography>
-                    <Typography
-                      variant='span'
-                      sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        color: "#ccc",
-                        marginTop: "10px",
-                      }}
+                    <AccordionSummary
+                      aria-controls='panel1a-content'
+                      id='panel1a-header'
                     >
-                      <strong>Deadline: </strong>
-                      {checkDateTime(deadline)}
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-              </Box>
-            );
-          })}
+                      <BorderColorRoundedIcon
+                        sx={{
+                          marginRight: "10px",
+                        }}
+                        onClick={() => {
+                          setIsEditing(true);
+                          setEditedTask({
+                            id: task._id,
+                            title: task.title,
+                            description,
+                            deadline: deadline.slice(0, -1),
+                          });
+
+                          navigate("/add");
+                        }}
+                      />
+                      <Typography
+                        width='100%'
+                        sx={{
+                          wordBreak: "break-all",
+                        }}
+                      >
+                        {title}
+                      </Typography>
+                      <DeleteRoundedIcon
+                        onClick={() => {
+                          setIsTaskDeleted(true);
+                          setEditedTask({
+                            id: task._id,
+                          });
+                        }}
+                        sx={{
+                          color: "#FF8E8E",
+                        }}
+                      />
+                    </AccordionSummary>
+                    <Divider color='#828080' />
+                    <AccordionDetails>
+                      <Typography
+                        sx={{
+                          wordBreak: "break-all",
+                        }}
+                      >
+                        {description || "No description available..."}
+                      </Typography>
+                      <Typography
+                        variant='span'
+                        sx={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          color: "#ccc",
+                          marginTop: "10px",
+                        }}
+                      >
+                        <strong>Deadline: </strong>
+                        {checkDateTime(deadline)}
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                </Box>
+              );
+            })
+          )}
         </Box>
         <NavLink to='/add' onClick={() => setIsEditing(false)}>
           <div className='addTask'>
