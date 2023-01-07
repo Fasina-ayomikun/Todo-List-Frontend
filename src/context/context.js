@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
         {
           headers: {
             "Access-Control-Allow-Origin":
-              "https://fash-fullstack-todolist.netlify.app/",
+              "https://todo-list-frontend-five.vercel.app",
           },
         }
       );
