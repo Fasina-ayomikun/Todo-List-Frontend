@@ -44,7 +44,13 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_LINK}/users/login`,
-        body
+        body,
+        {
+          headers: {
+            "Access-Control-Allow-Origin":
+              "https://fash-fullstack-todolist.netlify.app/",
+          },
+        }
       );
       const { data } = response;
       dispatch({ type: "LOGGINGIN", payload: data });
