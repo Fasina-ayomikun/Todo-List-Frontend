@@ -1,0 +1,85 @@
+.bold {
+  font-weight: 700;
+}
+body {
+  background-color: #00072d;
+  color: #fff;
+  margin: 0;
+  overflow-x: hidden;
+}
+a {
+  text-decoration: none;
+  color: #fff;
+}
+.link {
+  color: #00072d;
+}
+.white {
+  color: rgb(175, 175, 175);
+  text-decoration: underline;
+}
+img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.flex {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+td {
+  cursor: pointer;
+}
+.addTask {
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  opacity: 0.6;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+}
+.addTask div {
+  width: 60%;
+  position: absolute;
+  height: 10px;
+  border-radius: 10px;
+  background-color: #00072d;
+}
+.addTask div:first-child {
+  transform: rotate(90deg);
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-appearance-color: #fff;
+}
+.home {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+}
+.home svg {
+  font-size: 2rem;
+}
+
+@media (max-width: 300px) {
+  .home {
+    top: -30px;
+    left: 10px;
+  }
+  .logout {
+    top: -10px;
+    right: 10px;
+    font-size: 1.1rem;
+  }
+}
