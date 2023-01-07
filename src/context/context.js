@@ -42,16 +42,7 @@ export const AuthProvider = ({ children }) => {
   const loginUser = async (body) => {
     dispatch({ type: "LOADING" });
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_LINK}/users/login`,
-        body,
-        {
-          headers: {
-            "Access-Control-Allow-Origin":
-              "https://fash-fullstack-todolist.netlify.app/",
-          },
-        }
-      );
+      const response = await axios.post(`/users/login`, body);
       const { data } = response;
       dispatch({ type: "LOGGINGIN", payload: data });
       const { token, username, email } = data;
