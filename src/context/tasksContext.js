@@ -22,11 +22,15 @@ function TasksContextProvider({ children }) {
     dispatch({ type: "LOADING" });
     try {
       const token = JSON.parse(localStorage.getItem("Todo-List-token"));
-      const response = await axios.post("http://localhost:5000/tasks", body, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_LINK}/tasks`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const { data } = response;
       dispatch({ type: "TASK_CREATED", payload: data });
       setTaskAdded(true);
@@ -40,7 +44,7 @@ function TasksContextProvider({ children }) {
     try {
       const token = JSON.parse(localStorage.getItem("Todo-List-token"));
       const response = await axios.get(
-        `http://localhost:5000/tasks?sort=${sort}`,
+        `${process.env.REACT_APP_BACKEND_LINK}/tasks?sort=${sort}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,7 +62,7 @@ function TasksContextProvider({ children }) {
     try {
       const token = JSON.parse(localStorage.getItem("Todo-List-token"));
       const response = await axios.patch(
-        `http://localhost:5000/tasks/${taskId}`,
+        `${process.env.REACT_APP_BACKEND_LINK}/tasks/${taskId}`,
         body,
         {
           headers: {
@@ -78,7 +82,7 @@ function TasksContextProvider({ children }) {
     try {
       const token = JSON.parse(localStorage.getItem("Todo-List-token"));
       const response = await axios.delete(
-        `http://localhost:5000/tasks/${taskId}`,
+        `${process.env.REACT_APP_BACKEND_LINK}/tasks/${taskId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

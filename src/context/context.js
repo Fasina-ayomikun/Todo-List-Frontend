@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: "LOADING" });
     try {
       const response = await axios.post(
-        "http://localhost:5000/users/register",
+        `${process.env.REACT_APP_BACKEND_LINK}/users/register`,
         body
       );
       const { data } = response;
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: "LOADING" });
     try {
       const response = await axios.post(
-        "http://localhost:5000/users/login",
+        `${process.env.REACT_APP_BACKEND_LINK}/users/login`,
         body
       );
       const { data } = response;
