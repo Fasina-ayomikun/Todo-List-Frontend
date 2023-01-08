@@ -166,9 +166,15 @@ function Dashboard() {
             {tasks.length < 1 ? (
               <TableCell
                 variant='6'
-                sx={{
+             sx={{
+            fontSize: {
+              xs: "0.9rem",
+              sm: "1.1rem",
+             
+            },
                   borderBottom: "0",
-                }}
+          }}
+               
               >
                 No Task Available.
               </TableCell>
