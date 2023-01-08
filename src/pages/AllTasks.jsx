@@ -113,7 +113,13 @@ function AllTasks() {
           }}
         >
           {tasks.length < 1 ? (
-            <Typography variant='6'>No Task Available.</Typography>
+            <Typography variant='6'   sx={{
+            fontSize: {
+              xs: "0.9rem",
+              sm: "1.1rem",
+            },
+          }}
+        >No Task Available.</Typography>
           ) : (
             tasks.map((task) => {
               const { title, description, deadline } = task;
