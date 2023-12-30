@@ -45,7 +45,7 @@ export default function Register() {
         { data },
         {
           headers: {
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": process.env.REACT_APP_BACKEND_LINK,
           },
         }
       );
