@@ -200,7 +200,7 @@ export default function AddTask() {
                 gap: "2px",
               }}
             >
-              <AvatarList data={participants} />
+              <AvatarList data={participants} modal={true} />
 
               <AllUsersMenu
                 participants={participants}
