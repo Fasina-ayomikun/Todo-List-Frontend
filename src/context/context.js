@@ -34,6 +34,9 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: "REGISTERING", payload: data });
       if (data.success === true) {
         setIsRegistered(true);
+        setTimeout(() => {
+          setIsRegistered(false);
+        }, 1000);
       } else {
         setIsRegistered(false);
       }
@@ -61,6 +64,9 @@ export const AuthProvider = ({ children }) => {
       setLocalUser({ username, email, profile, _id });
       if (data.success === true) {
         setIsLoggedIn(true);
+        setTimeout(() => {
+          setIsLoggedIn(false);
+        }, 1000);
       } else {
         setIsLoggedIn(false);
       }
