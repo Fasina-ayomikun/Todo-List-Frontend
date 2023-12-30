@@ -225,7 +225,7 @@ function PopUpModal({ open, setIsTaskDeleted, handleClose, fullTask }) {
               marginTop: "30px",
             }}
           />{" "}
-          {dashboardUser._id !== user && (
+          {dashboardUser?._id !== user && (
             <Typography
               variant='p'
               onClick={() => handleUnsubscribe(dashboardUser._id)}
