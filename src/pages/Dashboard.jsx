@@ -8,6 +8,7 @@ import { useTaskProvider } from "../context/tasksContext";
 import Loading from "../auth/Loading";
 import {
   checkExpiredToken,
+  dashboardUser,
   initialFullTask,
   style,
   theme,
@@ -34,7 +35,8 @@ function Dashboard() {
   const handleDelete = () => setIsTaskDeleted(false);
 
   const handleClose = () => setOpen(false);
-  const { setIsLoggedIn, isLoading, logout, isExpired } = UseAuthProvider();
+  const { setIsLoggedIn, localUser, isLoading, logout, isExpired } =
+    UseAuthProvider();
   const { deleteTask, editedTask, taskRemoved, getAllTasksInvolved } =
     useTaskProvider();
   const { openNotification, getAllNotifications } = useNotificationProvider();
@@ -42,7 +44,7 @@ function Dashboard() {
 
   useEffect(() => {
     setIsLoggedIn(false);
-    getAllTasksInvolved();
+    getAllTasksInvolved(dashboardUser._id || localUser._id);
     getAllNotifications();
   }, []);
   useEffect(() => {

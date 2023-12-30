@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [localToken, setLocalToken] = useState("");
+  const [localUser, setLocalUser] = useState({});
   const [state, dispatch] = useReducer(reducer, initialState);
   const [AllUsers, setAllUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -57,6 +58,7 @@ export const AuthProvider = ({ children }) => {
         JSON.stringify({ username, email, profile, _id })
       );
       setLocalToken(token);
+      setLocalUser({ username, email, profile, _id });
       if (data.success === true) {
         setIsLoggedIn(true);
       } else {
@@ -108,6 +110,7 @@ export const AuthProvider = ({ children }) => {
         AllUsers,
         filteredUsers,
         setFilteredUsers,
+        localUser,
       }}
     >
       {children}

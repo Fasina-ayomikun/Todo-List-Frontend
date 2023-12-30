@@ -47,11 +47,11 @@ function TasksContextProvider({ children }) {
       dispatch({ type: "ERROR", payload: error.response });
     }
   };
-  const getAllTasksInvolved = async () => {
+  const getAllTasksInvolved = async (id) => {
     dispatch({ type: "LOADING" });
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_LINK}/tasks/users/all/${dashboardUser._id}?sort=-createdAt`,
+        `${process.env.REACT_APP_BACKEND_LINK}/tasks/users/all/${id}?sort=-createdAt`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -81,7 +81,7 @@ function TasksContextProvider({ children }) {
       console.log(data);
       dispatch({ type: "TASK_CREATED", payload: data });
       if (response.status === 201) {
-        getAllTasksInvolved();
+        getAllTasksInvolved(dashboardUser._id);
         setTaskAdded(true);
         setTimeout(() => {
           setTaskAdded(false);
@@ -107,7 +107,7 @@ function TasksContextProvider({ children }) {
       const { data } = response;
       dispatch({ type: "EDITING_TASK", payload: data });
       if (response.status === 200) {
-        getAllTasksInvolved();
+        getAllTasksInvolved(dashboardUser._id);
         setTaskAdded(true);
         setTimeout(() => {
           setTaskAdded(false);
@@ -130,7 +130,7 @@ function TasksContextProvider({ children }) {
       );
       if (response.status === 200) {
         setTaskRemoved(true);
-        getAllTasksInvolved();
+        getAllTasksInvolved(dashboardUser._id);
         setTimeout(() => {
           setTaskRemoved(false);
         }, [2000]);

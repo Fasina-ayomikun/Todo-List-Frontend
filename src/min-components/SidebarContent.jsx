@@ -15,8 +15,9 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import UpcomingIcon from "@mui/icons-material/Upcoming";
 import { useNavigate } from "react-router";
 import { useTaskProvider } from "../context/tasksContext";
-import { tagList } from "../utils/helpers";
+import { dashboardUser, tagList } from "../utils/helpers";
 import { useNotificationProvider } from "../context/notificationContext";
+import { UseAuthProvider } from "../context/context";
 
 const SidebarContent = ({ isModel }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -28,7 +29,7 @@ const SidebarContent = ({ isModel }) => {
   };
   const { getAllTasks, getAllTasksInvolved, filterTaskByTag } =
     useTaskProvider();
-
+  const { localUser } = UseAuthProvider();
   return (
     <>
       <Button
@@ -59,7 +60,7 @@ const SidebarContent = ({ isModel }) => {
           onClick={() => {
             setOpenNotification(false);
 
-            getAllTasksInvolved();
+            getAllTasksInvolved(dashboardUser._id || localUser._id);
           }}
         >
           <ListItemButton
