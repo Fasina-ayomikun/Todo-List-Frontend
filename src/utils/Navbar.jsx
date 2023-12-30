@@ -12,7 +12,6 @@ import React, { useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { useNavigate } from "react-router";
-import NightsStayIcon from "@mui/icons-material/NightsStay";
 
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
@@ -102,7 +101,6 @@ function Navbar({ toggleDrawer }) {
             sx={{ height: "20px", width: "20px" }}
           />
         </Badge>
-        <NightsStayIcon sx={{ height: "20px", width: "20px" }} />
         <Box
           sx={{
             display: {
