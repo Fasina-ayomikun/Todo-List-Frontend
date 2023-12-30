@@ -28,7 +28,6 @@ function Dashboard() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const toggleDrawer = () => {
     setOpenDrawer((prev) => !prev);
-    console.log("oopp");
   };
 
   const [fullTask, setFullTask] = useState(initialFullTask);
