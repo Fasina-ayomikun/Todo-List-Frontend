@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import AllTasks from "./pages/AllTasks";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -42,14 +41,7 @@ function App() {
             </PrivateRoutes>
           }
         />
-        <Route
-          path='tasks'
-          element={
-            <PrivateRoutes token={token}>
-              <AllTasks />
-            </PrivateRoutes>
-          }
-        />
+
         <Route
           path='/add'
           element={

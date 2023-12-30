@@ -2,7 +2,7 @@
   font-weight: 700;
 }
 body {
-  background-color: #00072d;
+  background-color: #151c3d;
   color: #fff;
   margin: 0;
   overflow-x: hidden;
@@ -70,6 +70,33 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 .home svg {
   font-size: 2rem;
+}
+.scroll-container {
+  overflow-y: scroll;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #02bbe0 transparent; /* Firefox */
+}
+.hidden {
+  display: none;
+}
+.line-through {
+  text-decoration: line-through;
+  color: "green";
+}
+
+/* Webkit browsers (Chrome, Safari) */
+.scroll-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #02bbe0;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
 }
 
 @media (max-width: 300px) {

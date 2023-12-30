@@ -12,17 +12,15 @@ import {
   InputAdornment,
   Stack,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UseAuthProvider } from "../context/context";
 import { useForm } from "react-hook-form";
-import { useRef } from "react";
 import Loading from "../auth/Loading";
-import { theme } from "../utils/helpers";
+import { inputStyle, theme } from "../utils/helpers";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [body, setBody] = useState({});
   const { loginUser, isLoggedIn, setIsRegistered, isLoading } =
     UseAuthProvider();
   const { register, handleSubmit } = useForm();
@@ -30,23 +28,11 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
   const handleFormSubmit = (formData) => {
-    setBody(formData);
+    setIsRegistered(false);
+
+    loginUser(formData);
   };
   const navigate = useNavigate();
-  const press = useRef(true);
-  useEffect(() => {
-    setIsRegistered(false);
-    if (body !== {}) {
-      if (press.current) {
-        press.current = false;
-      } else {
-        loginUser(body);
-      }
-    } else {
-      return;
-    }
-    // eslint-disable-next-line
-  }, [body]);
   if (isLoading) {
     return <Loading />;
   }
@@ -110,22 +96,7 @@ export default function Login() {
               color='secondary'
               required
               type='email'
-              sx={{
-                input: {
-                  color: "#c7c7c7",
-                },
-                label: {
-                  color: "#a39f9f !important",
-                },
-                fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                "& .MuiOutlinedInput-root:hover": {
-                  "& > fieldset": {
-                    borderColor: "#a39f9f",
-                  },
-                },
-                width: "90%",
-                margin: "0 auto",
-              }}
+              sx={inputStyle}
             />
             <TextField
               id='outlined-basic'
@@ -135,22 +106,7 @@ export default function Login() {
               required
               {...register("password")}
               type={showPassword ? "text" : "password"}
-              sx={{
-                input: {
-                  color: "#c7c7c7",
-                },
-                label: {
-                  color: "#a39f9f !important",
-                },
-                fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                "& .MuiOutlinedInput-root:hover": {
-                  "& > fieldset": {
-                    borderColor: "#a39f9f",
-                  },
-                },
-                width: "90%",
-                margin: "0 auto",
-              }}
+              sx={inputStyle}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>

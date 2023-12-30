@@ -1,5 +1,6 @@
 import StickyNote2RoundedIcon from "@mui/icons-material/StickyNote2Rounded";
 import Button from "@mui/material/Button";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import TextField from "@mui/material/TextField";
 
 import Typography from "@mui/material/Typography";
@@ -9,6 +10,8 @@ import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { ThemeProvider } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 import {
+  Avatar,
+  Box,
   FormHelperText,
   IconButton,
   InputAdornment,
@@ -17,40 +20,79 @@ import {
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UseAuthProvider } from "../context/context";
-import { useEffect } from "react";
+
 import { useRef } from "react";
 import Loading from "../auth/Loading";
-import { theme } from "../utils/helpers";
+import { inputStyle, theme } from "../utils/helpers";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [body, setBody] = useState({});
+  const [preview, setPreview] = useState("");
+  const [image, setImage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const { registerUser, isRegistered, isLoading } = UseAuthProvider();
   const { register, handleSubmit } = useForm();
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const handleFormSubmit = (formData) => {
-    setBody(formData);
+  const uploadImage = async (data) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_LINK}/files`,
+        { data },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        setImage(response?.data?.url);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.msg);
+    }
+  };
+  //FIXME: Fix the submitting
+  const handleFormSubmit = async (formData) => {
+    setSubmitting(true);
+    if (preview) {
+      await uploadImage(preview);
+    }
+    try {
+      await registerUser({ ...formData, image });
+      setSubmitting(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitting(false);
+    }
   };
   const handleShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
   const navigate = useNavigate();
-  const press = useRef(true);
-  useEffect(() => {
-    if (body !== {}) {
-      if (press.current) {
-        press.current = false;
-      } else {
-        registerUser(body);
+  const inputRef = useRef();
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    const reader = new FileReader();
+
+    reader.onload = async () => {
+      const result = reader.result;
+      if (result) {
+        setPreview(result);
       }
-    } else {
-      return;
-    }
-    // eslint-disable-next-line
-  }, [body]);
+    };
+    reader.onerror = async (error) => {
+      console.log(error);
+    };
+    reader.readAsDataURL(file);
+  };
   if (isLoading) {
     return <Loading />;
   }
@@ -69,7 +111,7 @@ export default function Register() {
           marginTop: "50px",
           minHeight: "250px",
           height: {
-            sm: "480px",
+            sm: "600px",
           },
         }}
       >
@@ -98,6 +140,32 @@ export default function Register() {
           />
         </Typography>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
+          <Avatar
+            src={preview ? preview : "../images/no-profile.jpg"}
+            sx={{ width: 100, height: 100, mx: "auto", my: "20px" }}
+          />
+          <input
+            type='file'
+            name=''
+            ref={inputRef}
+            className='hidden'
+            onChange={handleImageUpload}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              inputRef?.current?.click();
+            }}
+          >
+            <AddPhotoAlternateOutlinedIcon />
+            <Typography variant='p'>Add Profile Pic</Typography>
+          </Box>
           <Stack
             direction='column'
             display='flex'
@@ -172,22 +240,7 @@ export default function Register() {
               required
               {...register("email")}
               type='email'
-              sx={{
-                input: {
-                  color: "#c7c7c7",
-                },
-                label: {
-                  color: "#a39f9f !important",
-                },
-                fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                "& .MuiOutlinedInput-root:hover": {
-                  "& > fieldset": {
-                    borderColor: "#a39f9f",
-                  },
-                },
-                width: "90%",
-                margin: "0 auto",
-              }}
+              sx={inputStyle}
             />
             <Stack
               direction={{ xs: "column", sm: "row" }}
@@ -201,22 +254,7 @@ export default function Register() {
                 {...register("password")}
                 required
                 type={showPassword ? "text" : "password"}
-                sx={{
-                  input: {
-                    color: "#c7c7c7",
-                  },
-                  label: {
-                    color: "#a39f9f !important",
-                  },
-                  fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                  "& .MuiOutlinedInput-root:hover": {
-                    "& > fieldset": {
-                      borderColor: "#a39f9f",
-                    },
-                  },
-                  width: "100%",
-                  margin: "0 auto",
-                }}
+                sx={inputStyle}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
@@ -249,22 +287,7 @@ export default function Register() {
                 required
                 {...register("password2")}
                 type={showConfirmPassword ? "text" : "password"}
-                sx={{
-                  input: {
-                    color: "#c7c7c7",
-                  },
-                  label: {
-                    color: "#a39f9f !important",
-                  },
-                  fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                  "& .MuiOutlinedInput-root:hover": {
-                    "& > fieldset": {
-                      borderColor: "#a39f9f",
-                    },
-                  },
-                  width: "100%",
-                  margin: "0 auto",
-                }}
+                sx={inputStyle}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
@@ -296,6 +319,7 @@ export default function Register() {
             variant='contained'
             color='secondary'
             type='submit'
+            disabled={submitting}
             sx={{
               width: "30%",
               margin: "auto",
@@ -308,7 +332,7 @@ export default function Register() {
             }}
           >
             {isRegistered && navigate("/login")}
-            Register
+            {submitting ? "Registering..." : "Register"}
           </Button>
         </form>
 

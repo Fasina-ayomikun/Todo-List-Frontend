@@ -1,10 +1,15 @@
 import Button from "@mui/material/Button";
-
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
-import { FormHelperText, Stack } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Stack,
+} from "@mui/material";
 import { useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTaskProvider } from "../context/tasksContext";
@@ -12,47 +17,53 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Loading from "../auth/Loading";
 import { UseAuthProvider } from "../context/context";
-import { checkExpiredToken, theme } from "../utils/helpers";
-
+import {
+  checkExpiredToken,
+  dashboardUser,
+  inputStyle,
+  minDate,
+  theme,
+} from "../utils/helpers";
+import AvatarList from "../components/AvatarList";
+import AllUsersMenu from "../components/AllUsersMenu";
+import TagLists from "../min-components/TagLists";
 export default function AddTask() {
-  const [info, setInfo] = useState({});
+  const { createTask, taskAdded, isEditing, editedTask, editTask } =
+    useTaskProvider();
+  const { isExpired, logout } = UseAuthProvider();
+  const [participants, setParticipants] = useState(
+    editedTask.participants || []
+  );
+  const [tags, setIags] = useState(editedTask.tags || []);
   const cancelBtnRef = useRef(null);
-  const {
-    createTask,
-    taskAdded,
-    isExpired,
-    logout,
-    isEditing,
-    editedTask,
-    editTask,
-  } = useTaskProvider();
   const { isLoading } = UseAuthProvider();
   const navigate = useNavigate();
-  const press = useRef(true);
   const { register, handleSubmit } = useForm();
+  const { getAllUsers } = UseAuthProvider();
+
   const handleFormSubmit = (formData) => {
-    setInfo(formData);
+    checkExpiredToken(isExpired, navigate, logout);
+    if (isEditing) {
+      editTask(editedTask.id, {
+        ...formData,
+        tags,
+        participants,
+        user: dashboardUser._id,
+      });
+    } else {
+      createTask({ ...formData, completed: [], tags, participants });
+    }
   };
 
-  useEffect(() => {
-    if (info !== {}) {
-      if (press.current) {
-        press.current = false;
-      } else {
-        checkExpiredToken(isExpired, navigate, logout);
-        if (isEditing) {
-          editTask(editedTask.id, info);
-        } else {
-          createTask(info);
-        }
-      }
-    } else {
-      return;
+  const handleChange = (event) => {
+    const value = event.target.value;
+    if (tags.length !== 2) {
+      setIags(typeof value === "string" ? value.split(",") : value);
     }
-    // eslint-disable-next-line
-  }, [info, isExpired]);
-
-  let minDate = new Date(Date.now()).toISOString().slice(0, -8);
+  };
+  useEffect(() => {
+    getAllUsers();
+  }, []);
   if (isLoading) {
     return <Loading />;
   }
@@ -69,10 +80,9 @@ export default function AddTask() {
           },
           borderRadius: "10px",
           marginTop: "50px",
-          minHeight: "250px",
           height: {
-            xs: "400px",
-            sm: "450px",
+            xs: "100%",
+            sm: "100%",
           },
         }}
       >
@@ -109,22 +119,7 @@ export default function AddTask() {
               inputProps={{
                 maxLength: 50,
               }}
-              sx={{
-                input: {
-                  color: "#c7c7c7",
-                },
-                label: {
-                  color: "#a39f9f !important",
-                },
-                fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                "& .MuiOutlinedInput-root:hover": {
-                  "& > fieldset": {
-                    borderColor: "#a39f9f",
-                  },
-                },
-                width: "90%",
-                margin: "0 auto",
-              }}
+              sx={inputStyle}
             />
             <TextField
               id='outlined-basic'
@@ -134,24 +129,18 @@ export default function AddTask() {
               autoComplete='off'
               defaultValue={isEditing ? editedTask.description : null}
               {...register("description")}
-              sx={{
-                input: {
-                  color: "#c7c7c7",
-                },
-                label: {
-                  color: "#a39f9f !important",
-                },
-                fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                "& .MuiOutlinedInput-root:hover": {
-                  "& > fieldset": {
-                    borderColor: "#a39f9f",
-                  },
-                },
-                width: "90%",
-                margin: "0 auto",
-              }}
+              sx={inputStyle}
             />
-
+            <FormControl sx={{ m: 1, width: "90%" }} color='primary'>
+              <InputLabel
+                id='demo-multiple-chip-label'
+                color='secondary'
+                sx={{ color: "#c7c7c7" }}
+              >
+                Tags
+              </InputLabel>
+              <TagLists handleChange={handleChange} tags={tags} />
+            </FormControl>
             <TextField
               id='outlined-basic'
               color='secondary'
@@ -167,23 +156,7 @@ export default function AddTask() {
               inputProps={{
                 min: minDate,
               }}
-              sx={{
-                input: {
-                  color: "#c7c7c7",
-                },
-                label: {
-                  color: "#a39f9f !important",
-                },
-
-                fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                "& .MuiOutlinedInput-root:hover": {
-                  "& > fieldset": {
-                    borderColor: "#a39f9f",
-                  },
-                },
-                width: "90%",
-                margin: "0 auto",
-              }}
+              sx={inputStyle}
             />
             <FormHelperText
               sx={{
@@ -204,11 +177,50 @@ export default function AddTask() {
                 sm: "row",
               },
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "start",
               width: "90%",
               gap: "10px",
               margin: "0 auto",
-              marginTop: "30px",
+              marginTop: "10px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "#a39f9f ",
+                margin: "0",
+                textAlign: "start",
+              }}
+            >
+              Participants:
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "2px",
+              }}
+            >
+              <AvatarList data={participants} />
+
+              <AllUsersMenu
+                participants={participants}
+                setParticipants={setParticipants}
+              />
+            </Box>
+          </Stack>
+          <Stack
+            direction='row'
+            sx={{
+              display: "flex",
+              flexDirection: {
+                xs: "column",
+                sm: "row",
+              },
+              alignItems: "center",
+              justifyContent: "center",
+              width: "90%",
+              gap: "10px",
+              margin: "30px auto",
             }}
           >
             <Button
@@ -217,7 +229,6 @@ export default function AddTask() {
               sx={{
                 width: "100%",
                 margin: "auto",
-                color: "#00072D",
                 fontSize: {
                   xs: "0.8rem",
                   sm: "0.9rem",
@@ -225,16 +236,15 @@ export default function AddTask() {
               }}
               type='submit'
             >
-              {taskAdded && navigate("/tasks")}
+              {taskAdded && navigate("/dashboard")}
               {isEditing ? "Edit" : "Save"}
             </Button>
             <Button
               variant='contained'
-              color='secondary'
+              color='red'
               sx={{
                 width: "100%",
                 margin: "auto",
-                color: "#00072D",
                 fontSize: {
                   xs: "0.8rem",
                   sm: "0.9rem",

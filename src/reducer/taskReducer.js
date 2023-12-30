@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-function reducer(state, action) {
+function taskReducer(state, action) {
   if (action.type === "LOADING") {
     return { ...state, isLoading: true, isError: false, isExpired: false };
   }
@@ -21,33 +21,6 @@ function reducer(state, action) {
       });
       return { ...state, isLoading: false, isError: true, isExpired: false };
     }
-  }
-  if (action.type === "LOGGINGIN") {
-    const { msg, username, email, profile } = action.payload;
-    toast.success(msg, {
-      toastId: "123",
-    });
-
-    return {
-      ...state,
-      user: { username, email, profile },
-      isLoading: false,
-      msg,
-
-      isError: false,
-      isExpired: false,
-    };
-  }
-  if (action.type === "REGISTERING") {
-    const { msg } = action.payload;
-    toast.success(msg);
-    return {
-      ...state,
-      msg,
-      isLoading: false,
-      isError: false,
-      isExpired: false,
-    };
   }
 
   if (action.type === "TASK_CREATED") {
@@ -76,16 +49,7 @@ function reducer(state, action) {
       isExpired: false,
     };
   }
-  if (action.type === "ALL_COMMENTS") {
-    const { comments } = action.payload;
-    return {
-      ...state,
-      isLoading: false,
-      isError: false,
-      comments,
-      isExpired: false,
-    };
-  }
+
   if (action.type === "ALL_TASKS_INVOLVED") {
     const { msg, tasks } = action.payload;
     return {
@@ -190,4 +154,4 @@ function reducer(state, action) {
   throw new Error(`action type of ${action.type} no found`);
 }
 
-export default reducer;
+export default taskReducer;
