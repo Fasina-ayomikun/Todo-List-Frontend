@@ -154,7 +154,7 @@ export const inputStyle = {
       borderColor: "#a39f9f",
     },
   },
-  width: "90%",
+
   margin: "0 auto",
 };
 const style = {

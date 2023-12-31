@@ -212,24 +212,7 @@ export default function Register() {
                 {...register("lastName")}
                 required
                 type='text'
-                sx={{
-                  input: {
-                    color: "#c7c7c7",
-                  },
-                  label: {
-                    color: "#a39f9f !important",
-                  },
-
-                  textDecoration: "capitalize",
-                  fieldset: { borderColor: "#fff", "&:hover": "#fff" },
-                  "& .MuiOutlinedInput-root:hover": {
-                    "& > fieldset": {
-                      borderColor: "#a39f9f",
-                    },
-                  },
-                  width: "100%",
-                  margin: "0 auto",
-                }}
+                sx={{ ...inputStyle, width: "100%" }}
               />
             </Stack>
             <TextField
@@ -240,7 +223,7 @@ export default function Register() {
               required
               {...register("email")}
               type='email'
-              sx={inputStyle}
+              sx={{ ...inputStyle, width: "90%" }}
             />
             <Stack
               direction={{ xs: "column", sm: "row" }}
@@ -254,7 +237,7 @@ export default function Register() {
                 {...register("password")}
                 required
                 type={showPassword ? "text" : "password"}
-                sx={inputStyle}
+                sx={{ ...inputStyle, width: "100%" }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
@@ -287,7 +270,7 @@ export default function Register() {
                 required
                 {...register("password2")}
                 type={showConfirmPassword ? "text" : "password"}
-                sx={inputStyle}
+                sx={{ ...inputStyle, width: "100%" }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
