@@ -43,6 +43,7 @@ function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(localUser, dashboardUser);
     setIsLoggedIn(false);
     getAllTasksInvolved(localUser._id || dashboardUser._id);
     getAllNotifications();

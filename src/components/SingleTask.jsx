@@ -6,6 +6,7 @@ import { useTaskProvider } from "../context/tasksContext";
 import { dashboardUser, handleCompleted } from "../utils/helpers";
 import TagButton from "../min-components/TagButton";
 import { useNotificationProvider } from "../context/notificationContext";
+import { UseAuthProvider } from "../context/context";
 const SingleTask = ({
   task,
   setEditedTask,
@@ -23,10 +24,24 @@ const SingleTask = ({
     user,
     participants,
   } = task;
+  const { localUser } = UseAuthProvider();
+  console.log("u", task, user);
+  const [profileUser, setProfileUser] = useState(localUser);
   const [completedIds, setCompletedIds] = useState({ taskId: id, completed });
   const { editTask } = useTaskProvider();
   const { getAllNotifications } = useNotificationProvider();
   const press = useRef(true);
+  const participantAvatarList = [
+    ...participants.filter((p) => p._id !== profileUser._id),
+    user,
+  ];
+  useEffect(() => {
+    if (!localUser._id) {
+      if (dashboardUser._id) {
+        setProfileUser(dashboardUser);
+      }
+    }
+  }, [dashboardUser]);
   useEffect(() => {
     if (press.current) {
       press.current = false;
@@ -37,7 +52,7 @@ const SingleTask = ({
         deadline,
         completed: completedIds.completed,
 
-        user,
+        user: user._id,
         participants,
         tags,
       });
@@ -107,7 +122,7 @@ const SingleTask = ({
               participants,
               tags,
               completed,
-              user,
+              user: user._id,
             });
           }}
         >
@@ -146,8 +161,15 @@ const SingleTask = ({
                 <TagButton tag={tag} key={index} />
               ))}
             </Box>
-            <AvatarList data={participants} modal={false} />
-            {dashboardUser?._id === user && (
+            <AvatarList
+              data={
+                profileUser?._id === user?._id
+                  ? participants
+                  : participantAvatarList
+              }
+              modal={false}
+            />
+            {profileUser?._id === user._id && (
               <DeleteRoundedIcon
                 onClick={() => {
                   setIsTaskDeleted(true);
