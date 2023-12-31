@@ -38,14 +38,15 @@ export default function Register() {
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const uploadImage = async (data) => {
+  const formData = new FormData();
+  const uploadImage = async (file) => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_LINK}/files`,
-        { data },
+        file,
         {
           headers: {
-            "Access-Control-Allow-Origin": process.env.REACT_APP_BACKEND_LINK,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -81,6 +82,7 @@ export default function Register() {
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     const reader = new FileReader();
+    formData.append("image", file);
 
     reader.onload = async () => {
       const result = reader.result;
