@@ -57,7 +57,7 @@ function NotificationsContextProvider({ children }) {
   const getAllNotifications = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_LINK}/notification/all/${dashboardUser._id}`,
+        `${process.env.REACT_APP_BACKEND_LINK}/notification/all/${dashboardUser?._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
