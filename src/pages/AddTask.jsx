@@ -48,7 +48,7 @@ export default function AddTask() {
         ...formData,
         tags,
         participants,
-        user: dashboardUser._id,
+        user: dashboardUser?._id,
       });
     } else {
       createTask({ ...formData, completed: [], tags, participants });

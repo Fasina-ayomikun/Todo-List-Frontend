@@ -60,7 +60,7 @@ const CommentSection = ({ id }) => {
             {
               comment,
               task: id,
-              creator: dashboardUser._id,
+              creator: dashboardUser?._id,
             },
             id
           );

@@ -81,7 +81,7 @@ function TasksContextProvider({ children }) {
       console.log(data);
       dispatch({ type: "TASK_CREATED", payload: data });
       if (response.status === 201) {
-        getAllTasksInvolved(dashboardUser._id);
+        getAllTasksInvolved(dashboardUser?._id);
         setTaskAdded(true);
         setTimeout(() => {
           setTaskAdded(false);
@@ -107,7 +107,7 @@ function TasksContextProvider({ children }) {
       const { data } = response;
       dispatch({ type: "EDITING_TASK", payload: data });
       if (response.status === 200) {
-        getAllTasksInvolved(dashboardUser._id);
+        getAllTasksInvolved(dashboardUser?._id);
         setTaskAdded(true);
         setTimeout(() => {
           setTaskAdded(false);
@@ -130,7 +130,7 @@ function TasksContextProvider({ children }) {
       );
       if (response.status === 200) {
         setTaskRemoved(true);
-        getAllTasksInvolved(dashboardUser._id);
+        getAllTasksInvolved(dashboardUser?._id);
         setTimeout(() => {
           setTaskRemoved(false);
         }, [2000]);

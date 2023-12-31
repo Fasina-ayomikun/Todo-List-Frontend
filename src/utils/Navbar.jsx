@@ -34,7 +34,7 @@ function Navbar({ toggleDrawer }) {
   };
   useEffect(() => {
     if (!localUser._id) {
-      if (dashboardUser._id) {
+      if (dashboardUser?._id) {
         setProfileUser(dashboardUser);
       }
     }

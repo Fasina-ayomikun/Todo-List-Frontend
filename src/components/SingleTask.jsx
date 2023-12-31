@@ -37,7 +37,7 @@ const SingleTask = ({
   ];
   useEffect(() => {
     if (!localUser._id) {
-      if (dashboardUser._id) {
+      if (dashboardUser?._id) {
         setProfileUser(dashboardUser);
       }
     }
@@ -67,7 +67,7 @@ const SingleTask = ({
         container
         sx={{
           backgroundColor: `${
-            completed.includes(dashboardUser._id) ? "transparent" : "#00072d"
+            completed.includes(dashboardUser?._id) ? "transparent" : "#00072d"
           }`,
 
           padding: "22px 10px",
@@ -85,10 +85,10 @@ const SingleTask = ({
           {/*Link to Edit*/}
           <Checkbox
             color='success'
-            checked={completed.includes(dashboardUser._id)}
+            checked={completed.includes(dashboardUser?._id)}
             onChange={(e) => {
               console.log(e.target.checked);
-              handleCompleted(dashboardUser._id, setCompletedIds);
+              handleCompleted(dashboardUser?._id, setCompletedIds);
             }}
             sx={{
               color: "#ccc",
@@ -102,14 +102,14 @@ const SingleTask = ({
           sm={6}
           sx={{
             color: `${
-              completed.includes(dashboardUser._id) ? "green" : "#fff"
+              completed.includes(dashboardUser?._id) ? "green" : "#fff"
             }`,
             width: "100%",
             display: "flex",
             alignItems: "center",
             cursor: "pointer",
             textDecoration: `${
-              completed.includes(dashboardUser._id) ? "line-through" : "none"
+              completed.includes(dashboardUser?._id) ? "line-through" : "none"
             }`,
           }}
           onClick={() => {

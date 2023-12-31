@@ -29,7 +29,7 @@ const SingleComment = ({ comment, id }) => {
         <Typography sx={{ width: "100%" }} component='p'>
           {username}
         </Typography>
-        {_id === dashboardUser._id && (
+        {_id === dashboardUser?._id && (
           <DeleteRoundedIcon
             sx={{
               color: "#FF8E8E",
