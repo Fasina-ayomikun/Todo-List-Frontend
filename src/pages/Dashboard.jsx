@@ -44,7 +44,7 @@ function Dashboard() {
 
   useEffect(() => {
     setIsLoggedIn(false);
-    getAllTasksInvolved(dashboardUser._id || localUser._id);
+    getAllTasksInvolved(localUser._id || dashboardUser._id);
     getAllNotifications();
   }, []);
   useEffect(() => {

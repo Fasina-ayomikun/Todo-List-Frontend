@@ -7,7 +7,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
@@ -19,7 +19,8 @@ import { UseAuthProvider } from "../context/context";
 import { useNotificationProvider } from "../context/notificationContext";
 import { dashboardUser } from "./helpers";
 function Navbar({ toggleDrawer }) {
-  const { logout } = UseAuthProvider();
+  const { logout, localUser } = UseAuthProvider();
+  const [profileUser, setProfileUser] = useState(localUser);
   const { setOpenNotification, notifications } = useNotificationProvider();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,6 +32,13 @@ function Navbar({ toggleDrawer }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  useEffect(() => {
+    if (!localUser._id) {
+      if (dashboardUser._id) {
+        setProfileUser(dashboardUser);
+      }
+    }
+  }, [dashboardUser]);
   return (
     <Box
       sx={{
@@ -120,13 +128,13 @@ function Navbar({ toggleDrawer }) {
               },
             }}
           >
-            {dashboardUser?.username}
+            {profileUser?.username}
           </Typography>
           <Avatar
             alt=''
             src={
-              dashboardUser?.profile
-                ? dashboardUser?.profile
+              profileUser?.profile
+                ? profileUser?.profile
                 : "../images/no-profile.jpg"
             }
             onClick={(e) => {

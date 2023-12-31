@@ -32,6 +32,7 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [preview, setPreview] = useState("");
   const [image, setImage] = useState("");
+  const [data, setData] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const { registerUser, isRegistered, isLoading } = UseAuthProvider();
   const { register, handleSubmit } = useForm();
@@ -53,6 +54,7 @@ export default function Register() {
       console.log(response);
       if (response.status === 200) {
         setImage(response?.data?.url);
+        return response?.data.url;
       }
     } catch (error) {
       console.log(error);
@@ -60,13 +62,14 @@ export default function Register() {
     }
   };
   //FIXME: Fix the submitting
-  const handleFormSubmit = async (formData) => {
+  const handleFormSubmit = async (formInfo) => {
     setSubmitting(true);
+    let url;
     if (preview) {
-      await uploadImage(preview);
+      url = await uploadImage(data);
     }
     try {
-      await registerUser({ ...formData, image });
+      await registerUser({ ...formInfo, profile: url });
       setSubmitting(false);
     } catch (error) {
       console.log(error);
@@ -82,8 +85,9 @@ export default function Register() {
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     const reader = new FileReader();
+    console.log(file);
     formData.append("image", file);
-
+    setData(formData);
     reader.onload = async () => {
       const result = reader.result;
       if (result) {

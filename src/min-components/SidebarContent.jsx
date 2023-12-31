@@ -60,10 +60,11 @@ const SidebarContent = ({ isModel }) => {
           onClick={() => {
             setOpenNotification(false);
 
-            getAllTasksInvolved(dashboardUser._id || localUser._id);
+            getAllTasksInvolved(localUser._id || dashboardUser._id);
           }}
         >
           <ListItemButton
+            selected={selectedIndex === 0}
             onClick={(event) => {
               handleListItemClick(event, 0);
             }}
@@ -87,6 +88,7 @@ const SidebarContent = ({ isModel }) => {
           }}
         >
           <ListItemButton
+            selected={selectedIndex === 1}
             onClick={(event) => {
               handleListItemClick(event, 1);
             }}
@@ -124,6 +126,7 @@ const SidebarContent = ({ isModel }) => {
           >
             <ListItem disablePadding>
               <ListItemButton
+                selected={selectedIndex === index + 2}
                 onClick={(event) => {
                   handleListItemClick(event, index + 2);
                 }}
