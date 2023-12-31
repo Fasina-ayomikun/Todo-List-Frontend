@@ -119,7 +119,7 @@ export default function AddTask() {
               inputProps={{
                 maxLength: 50,
               }}
-              sx={inputStyle}
+              sx={{ ...inputStyle, width: "90%" }}
             />
             <TextField
               id='outlined-basic'
@@ -129,7 +129,7 @@ export default function AddTask() {
               autoComplete='off'
               defaultValue={isEditing ? editedTask.description : null}
               {...register("description")}
-              sx={inputStyle}
+              sx={{ ...inputStyle, width: "90%" }}
             />
             <FormControl sx={{ m: 1, width: "90%" }} color='primary'>
               <InputLabel
@@ -156,7 +156,7 @@ export default function AddTask() {
               inputProps={{
                 min: minDate,
               }}
-              sx={inputStyle}
+              sx={{ ...inputStyle, width: "90%" }}
             />
             <FormHelperText
               sx={{

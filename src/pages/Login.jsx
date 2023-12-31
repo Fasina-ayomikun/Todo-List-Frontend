@@ -96,7 +96,7 @@ export default function Login() {
               color='secondary'
               required
               type='email'
-              sx={inputStyle}
+              sx={{ ...inputStyle, width: "90%" }}
             />
             <TextField
               id='outlined-basic'
@@ -106,7 +106,7 @@ export default function Login() {
               required
               {...register("password")}
               type={showPassword ? "text" : "password"}
-              sx={inputStyle}
+              sx={{ ...inputStyle, width: "90%" }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
